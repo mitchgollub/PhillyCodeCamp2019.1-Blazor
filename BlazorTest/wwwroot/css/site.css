@@ -1,9 +1,11 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    height: 100%;
 }
 
 app {
+    height: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -25,6 +27,19 @@ app {
     100% {
         transform: rotate(360deg);
     }
+}
+
+.flex-container {
+    display: flex;
+}
+
+.flex-container--column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-spacer {
+    flex: 1;
 }
 
 .top-row {
