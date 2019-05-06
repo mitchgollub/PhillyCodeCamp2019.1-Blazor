@@ -1,18 +1,34 @@
 ﻿@page "/computer-vision"
+@using System.Threading
+@using System.Net.Http.Headers
+@inject HttpClient httpClient
 
 <h1>Computer Vision</h1>
 
-<p>Current count: @currentCount</p>
-    <label for="url">Image Url: </label>
-    <input type="text" name="url">
+<label for="key">API Key: </label>
+<input bind="@ApiKey" name="key" />
+<label for="url">Image Url: </label>
+<input bind="@ImageUrl" name="url" />
 
-<button class="btn btn-primary" onclick="@IncrementCount">Click me</button>
+<button class="btn btn-primary" onclick="@(async () => await AnalyzeImage())">Click me</button>
+
+<div>@ImageAnalysis</div>
 
 @functions {
-    int currentCount = 0;
+    string ApiKey { get; set; } = "";
+    string ImageUrl { get; set; } = "";
+    string ImageAnalysis { get; set; } = "";
 
-    void IncrementCount()
+    private async Task AnalyzeImage()
     {
-        currentCount++;
+        // Send data to ComputerVision API
+        httpClient.BaseAddress = new Uri("https://eastus.api.cognitive.microsoft.com/vision/v2.0/");
+        httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", ApiKey);
+        var content = new StringContent("{'url': '" + ImageUrl + "'}");
+        content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+        var result = await httpClient.PostAsync("analyze?visualFeatures=Categories,Tags&details=Landmarks,Celebrities", content);
+        
+        // Format and return result
+        ImageAnalysis = await result.Content.ReadAsStringAsync();
     }
 }
