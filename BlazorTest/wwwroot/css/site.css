@@ -11,9 +11,13 @@ app {
     flex-direction: column;
 }
 
+.loader-background {
+    background-color: #8c93a8;
+}
+
 .loader {
-    border: 16px solid #f3f3f3;
-    border-top: 16px solid #3498db;
+    border: 16px solid #b5c2b7;
+    border-top: 16px solid #62466b;
     border-radius: 50%;
     width: 120px;
     height: 120px;
